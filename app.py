@@ -33,8 +33,4 @@ def home():
     Category.create_category()
     Customer.create_custome_table()
 
-    return jsonify("WELCOME TO SHOPPING BUDDY")
-
-
-if __name__=="__main__":
-    myapp.run(debug=True)
+    return jsonify("WELCOME TO SHOPPING BUDDY"),200
