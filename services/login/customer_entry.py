@@ -34,8 +34,6 @@ class Login:
                 return jsonify(data),200
             else:
                 return jsonify("No record found"),404
-        else:
-            return jsonify("enter all details")
 
     def new_customer():
         conn = connect_mysql()
@@ -61,8 +59,6 @@ class Login:
                     mycursor.execute("INSERT INTO customers(ID,NAME,AGE,GENDER,PASSWORD)VALUES(%s,%s,%s,%s,%s)",(id,name,age,gender,password))
                     conn.commit()
                     return jsonify({"id":id,"name":name,"age":age,"gender":gender}),201
-            else:
-                return jsonify("enter all details"),401
                 
     
     def delete_my_account():
@@ -86,5 +82,3 @@ class Login:
                 return jsonify("record deleted"),204
             else:
                 return  jsonify("record not found"),404
-        else:
-            return jsonify("enter all details")

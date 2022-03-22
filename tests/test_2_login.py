@@ -1,3 +1,4 @@
+
 from  app import myapp
 
 
@@ -20,9 +21,23 @@ class Test():
     category_data = {"admin":"vishwa3908",
         "password":"pass1234",
         "category":"Tester"}
+    # wrong credentials
+    wrong_category_data = {"admin":"vishwa",
+        "password":"pass1234",
+        "category":"Tester"}
+    # wrong category name
+    wrong_category_data_name = {"admin":"vishwa3908",
+        "password":"pass1234",
+        "category":"xxxxx"}
 
     sub_data = {
             "category":category_data["category"].capitalize(),
+            "sub-category":"mytest".capitalize(),
+            "price":200
+        }
+    
+    wrong_sub_data = {
+            "category":"xxxxxx",
             "sub-category":"mytest".capitalize(),
             "price":200
         }
@@ -41,15 +56,6 @@ class Test():
         assert response_data=="WELCOME TO SHOPPING BUDDY"
         assert response.content_type =="application/json"
         assert response.status_code==200
-
-        
-        # assert response.content_type=="application/json"
-
-    # wrong http request for home
-    def test_1_1_home(self):
-        response = self.tester.post("/")
-        assert response.status_code==405
-        
     
 
 
@@ -162,100 +168,3 @@ class Test():
     def test_4_4_wrong_old_customer_login(self):
         response = self.tester.get("/login")
         assert response.status_code==500
-    
-
-#==========checking new category creation-===================
-        
-    def test_5_create_new_category(self):
-        response = self.tester.post("/categories/add",json=self.category_data)
-        assert response.status_code==201
-        assert response.content_type=="application/json"
-        response_data = response.json
-        assert response_data==self.category_data["category"]+" "+"Category added"
-
-#=========showing category check================
-
-    def test_6_show_category(self):
-        response = self.tester.get("/categories")
-        assert response.status_code==200
-        assert response.content_type=="application/json"
-
-    #------------ adding sub category---------------    
-
-    def test_7_add_subcategory(self):
-        
-        response = self.tester.post("/categories/add/subcategory",json=self.sub_data)
-        assert response.status_code==201
-        assert response.content_type=="application/json"
-        response_data= response.json
-        assert response_data== self.sub_data["sub-category"]+" "+"subcategory created"
-
-#     showing sub category================
-
-    def test_8_show_subcategory(self): 
-        response = self.tester.get("/categories/{}".format(self.sub_data["category"]))
-        assert response.status_code==200
-        response_data = response.json
-        assert response.headers["Content-Type"]=="application/json"
-        assert response_data[0]["Item"]==self.sub_data["sub-category"].capitalize()
-        assert response_data[0]["Price"]=="Rs"+" "+str(self.sub_data["price"])
-
-# -----adding cart------------
-
-    def test_9_add_cart(self):
-        response = self.tester.post("/records",json=self.add_cart_data)
-        assert response.status_code==201
-
-    # updating cart one more time to check quantity updation
-    def test_9_1_add_cart(self):
-        response = self.tester.post("/records",json=self.add_cart_data)
-        assert response.status_code==201
-
-# --------------showing customer cart----------------
-
-    def test_10_show_customer_cart(self):
-        response = self.tester.get("/records/{}".format(self.data["name"]))
-        assert response.status_code==200
-        assert response.headers["Content-Type"]=="application/json"
-        response_data = response.json
-        assert response_data[0]["Item"]==self.sub_data["sub-category"].capitalize()
-        assert response_data[0]["Item-Type"]==self.sub_data["category"].capitalize()
-        assert response_data[0]["Price"]==self.sub_data["price"]
-        quant = response_data[0]["Quantity"]
-        assert response_data[0]["Total Price"]==self.sub_data["price"]*quant
-
-# -----deleting cart--------------- and all data-------------------
-    def test_11_delete_cart(self):
-        delete_data = self.add_cart_data
-
-        response = self.tester.delete("/records",json=delete_data)
-        assert response.status_code==204
-    # deleting one more quantity
-    def test_11_1_delete_cart(self):
-        delete_data = self.add_cart_data
-
-        response = self.tester.delete("/records",json=delete_data)
-        assert response.status_code==204
-
-    def test_12_delete_subcategory(self):
-        del_sub_data = {
-            "category":self.category_data["category"],
-            "sub-category":self.sub_data["sub-category"]
-        }
-        response = self.tester.delete("/categories/delete/subcategory",json = del_sub_data)
-        assert response.status_code==204
-
-    def test_13_delete_category(self):
-        del_cat_data = self.category_data
-        response = self.tester.delete("/categories/delete",json=del_cat_data)
-        assert response.status_code==204
-
-
-    def test_14_delete_customer_account(self):
-        data = {
-            "id":self.data["id"],
-            "name":self.data["name"],
-            "password":self.data["password"]
-        }
-        response = self.tester.delete("/login/delete",json=data)
-        assert response.status_code==204
