@@ -3,7 +3,7 @@ from  Config.connection import connect_mysql
 
 
 class Categories:
-
+ 
     def show_categories():
         conn = connect_mysql()
         mycursor = conn.cursor()

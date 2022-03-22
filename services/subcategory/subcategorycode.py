@@ -1,5 +1,4 @@
-from flask import Flask,request,jsonify
-import pymysql
+from flask import request,jsonify
 from  Config.connection import connect_mysql
 
 

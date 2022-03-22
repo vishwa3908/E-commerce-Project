@@ -6,16 +6,6 @@ class Test():
 # -------- All data to be used in testing----------------
 
     tester = myapp.test_client()
-    data = {"id":12,
-        "name":"kevin".capitalize(),
-        "password":"pass",
-        "age":22,
-        "gender":"m".capitalize()}
-    
-    show_data = {"id":12,
-        "name":"kevin".capitalize(),
-        "age":22,
-        "gender":"m".capitalize()}
 
     category_data = {"admin":"vishwa3908",
         "password":"pass1234",
@@ -40,13 +30,6 @@ class Test():
             "sub-category":"mytest".capitalize(),
             "price":200
         }
-
-    add_cart_data = {
-        "name":data["name"].capitalize(),
-        "password":data["password"],
-        "item-type":category_data["category"].capitalize(),
-        "item":sub_data["sub-category"].capitalize()
-    }
     #------------ adding sub category---------------    
         # first check sub-category else part
     

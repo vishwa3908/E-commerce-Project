@@ -1,6 +1,5 @@
 
 from flask import Flask,request,jsonify
-import pymysql
 from  Config.connection import connect_mysql
 from  model.customer_cart import CustomerCart
 
@@ -16,7 +15,6 @@ from  model.customer_cart import CustomerCart
 
 
 class Login:
-
 
     def old_customer_login():
         conn = connect_mysql()

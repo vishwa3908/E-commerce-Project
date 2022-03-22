@@ -49,14 +49,6 @@ class Test():
         "item":sub_data["sub-category"].capitalize()
     }
 
-    #------testing home page--------------
-    def test_1_home(self):
-        response = self.tester.get("/")
-        response_data = response.json
-        assert response_data=="WELCOME TO SHOPPING BUDDY"
-        assert response.content_type =="application/json"
-        assert response.status_code==200
-    
 
 
     
