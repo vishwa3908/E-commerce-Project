@@ -17,7 +17,7 @@ myapp.register_blueprint(log_in)
 myapp.register_blueprint(mysubcategory)
 def connection():
     conn = pymysql.connect(
-        host='localhost',
+        host='big-project-rds.cpgtqvgczfeo.us-east-1.rds.amazonaws.com',
         user='vishwa',
         password='Password.123'
     )
@@ -26,7 +26,6 @@ def connection():
 def home():
     conn = connection()
     mycursor = conn.cursor()
-    mycursor.execute("""CREATE USER IF NOT EXISTS 'vishwa'@'localhost' IDENTIFIED BY 'Password.123'""")
     mycursor.execute("CREATE DATABASE IF NOT EXISTS shopping")
 
     Admin.create_admin()
