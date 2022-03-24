@@ -1,5 +1,6 @@
 from flask import Flask,jsonify
 import pymysql,requests
+from constants import constant
 from  api.customer import mycustomer
 from  api.login import log_in
 from  api.subcategories import mysubcategory
@@ -17,16 +18,16 @@ myapp.register_blueprint(log_in)
 myapp.register_blueprint(mysubcategory)
 def connection():
     conn = pymysql.connect(
-        host='big-project-rds.cpgtqvgczfeo.us-east-1.rds.amazonaws.com',
-        user='vishwa',
-        password='Password.123'
+        host=constant.host,
+        user=constant.user,
+        password=constant.password
     )
     return conn
 @myapp.route("/",methods=["GET"])
 def home():
     conn = connection()
     mycursor = conn.cursor()
-    mycursor.execute("CREATE DATABASE IF NOT EXISTS shopping")
+    mycursor.execute("CREATE DATABASE IF NOT EXISTS {}".format(constant.database))
 
     Admin.create_admin()
     Category.create_category()

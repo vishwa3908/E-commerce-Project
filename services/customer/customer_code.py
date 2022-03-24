@@ -42,7 +42,7 @@ class Customer:
                 customer_result.append(data)
             return jsonify(customer_result),200
         else:
-            return jsonify("No customers"),404
+            return jsonify("No customers"),200
 
     
     def add_customer_cart():

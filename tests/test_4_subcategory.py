@@ -1,6 +1,7 @@
 from  app import myapp
 from constants import constant
-
+import pytest
+from Config.connection import connect_mysql
 class Test():
 
 # -------- All data to be used in testing----------------
@@ -9,13 +10,15 @@ class Test():
 
     #------------ adding sub category---------------    
         # first check sub-category else part
-    
+
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")    
     def test_6_1_show_subcategory_else(self):
         response = self.tester.get("/categories/{}".format(constant.sub_data["category"]))
         assert response.status_code==200
         response_data = response.json
         assert response_data == "Empty"
 
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_7_add_subcategory(self):
         
         response = self.tester.post("/categories/add/subcategory",json=constant.sub_data)
@@ -26,6 +29,7 @@ class Test():
 
     # adding sub category having category name wrong
 
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_7_1_add_subcategory(self):
         
         response = self.tester.post("/categories/add/subcategory",json=constant.wrong_sub_data)
@@ -35,7 +39,7 @@ class Test():
         assert response_data== "No category Found"
         
     #     ==========showing sub category================
-
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_8_show_subcategory(self): 
         response = self.tester.get("/categories/{}".format(constant.sub_data["category"]))
         assert response.status_code==200

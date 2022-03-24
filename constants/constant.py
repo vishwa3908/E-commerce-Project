@@ -1,3 +1,18 @@
+#database data 
+host='localhost'
+user='vishwa'
+password='Password.123'
+database='ecommerce'
+
+
+
+
+
+
+
+
+
+
 data = {"id":12,
     "name":"kevin".capitalize(),
     "password":"pass",

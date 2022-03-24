@@ -1,14 +1,16 @@
 from constants import constant
 from  app import myapp
-
-
+import pytest
+from Config.connection import connect_mysql
 class Test():
 
 # -------- All data to be used in testing----------------
 
     tester = myapp.test_client()
     # -----adding cart------------
-    # first check cart is empty
+
+        # first check cart is empty
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_9_show_customer_cart(self):
         response = self.tester.get("/records/{}".format(constant.data["name"]))
         assert response.status_code==200
@@ -16,16 +18,19 @@ class Test():
         response_data = response.json
         assert response_data=="Nothing on Cart"
 
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_9_1_add_cart(self):
         response = self.tester.post("/records",json=constant.add_cart_data)
         assert response.status_code==201
 
     # updating cart one more time to check quantity updation
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_9_2_add_cart(self):
         response = self.tester.post("/records",json=constant.add_cart_data)
         assert response.status_code==201
     
     # adding item with wrong customer data
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_9_3_add_cart(self):
         response = self.tester.post("/records",json=constant.wrong_add_cart_data)
         assert response.status_code==404
@@ -33,7 +38,7 @@ class Test():
         assert response.content_type=="application/json"
 
 # --------------showing customer cart----------------
-
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_10_show_customer_cart(self):
         response = self.tester.get("/records/{}".format(constant.data["name"]))
         assert response.status_code==200
