@@ -4,7 +4,7 @@ Description = Gunicorn instance to serve my project
 After = network.target
 
 [Service]
-User = info
+User = ubuntu
 Group = www-data
 WorkingDirectory = /home/ubuntu/my_first_big_project
 Environment = "PATH=/home/ubuntu/my_first_big_project/myvenv/bin"
