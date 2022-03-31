@@ -45,7 +45,7 @@ class Test():
     #@pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_2_2_wrong_new_customer(self):
         response = self.tester.post("/login/new")
-        assert response.status_code==500
+        assert response.status_code==400
 
 # -------------if same id is inserted----------
     #@pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
@@ -66,7 +66,7 @@ class Test():
     #@pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_3_1_get_all_customer(self):
         response = self.tester.post("/records")
-        assert response.status_code==500
+        assert response.status_code==400
         
 #-----------checking old customer login----------------
    # @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
@@ -129,4 +129,4 @@ class Test():
    # @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_4_4_wrong_old_customer_login(self):
         response = self.tester.get("/login")
-        assert response.status_code==500
+        assert response.status_code==400
