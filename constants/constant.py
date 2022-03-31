@@ -1,5 +1,5 @@
 #database data 
-host='localhost'
+host='vishwa-rds.cpgtqvgczfeo.us-east-1.rds.amazonaws.com'
 user='vishwa'
 password='Password.123'
 database='ecommerce'

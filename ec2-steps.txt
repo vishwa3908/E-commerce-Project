@@ -1,0 +1,16 @@
+clone the file into ec2
+cd into the folder
+cd my_first_big_project
+sudo apt install python3-pip
+python3 -m venv myvenv
+. myvenv/bin/activate
+pip3 install requirement.txt
+ move the app.service file to /etc/systemd/system 
+ sudo systemctl start app
+ sudo systemctl enable app
+ sudo systemctl status app
+
+ move the app file to /etc/nginx/sites-available
+
+ sudo ln -s /etc/nginx/sites-available/app /etc/nginx/sites-enabled
+ sudo systemctl restart nginx

@@ -1,0 +1,14 @@
+[Unit]
+
+Description = Gunicorn instance to serve my project
+After = network.target
+
+[Service]
+User = info
+Group = www-data
+WorkingDirectory = /home/ubuntu/my_first_big_project
+Environment = "PATH=/home/ubuntu/my_first_big_project/myvenv/bin"
+ExecStart = /home/ubuntu/my_first_big_project/myvenv/bin/gunicorn --config gunicorn_config.py wsgi:application
+
+[Install]
+WantedBy = multi-user.target

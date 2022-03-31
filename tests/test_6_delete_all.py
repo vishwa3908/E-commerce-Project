@@ -9,14 +9,14 @@ class Test():
 
     tester = myapp.test_client()
 #  -----deleting cart--------------- and all data-------------------
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+ #   @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_delete_cart(self):
         delete_data = constant.add_cart_data
 
         response = self.tester.delete("/records",json=delete_data)
         assert response.status_code==204
     # deleting one more quantity
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+ #   @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_1_delete_cart(self):
         delete_data = constant.add_cart_data
 
@@ -24,7 +24,7 @@ class Test():
         assert response.status_code==204
     
     #deleting cart with wrong cart data
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+   # @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_2_delete_cart_wrong_item(self):
         wrong_cart_item ={
         "name":constant.data["name"].capitalize(),
@@ -39,7 +39,7 @@ class Test():
 
 
     # deleting cart with user wrong credentials
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_3_delete_cart_wrong_password(self):
         wrong_cart_password ={
         "name":constant.data["name"].capitalize(),
@@ -52,7 +52,7 @@ class Test():
         assert response.content_type=="application/json"
         assert response.json=="Wrong item record"
 
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_12_delete_subcategory(self):
         del_sub_data = {
             "category":constant.category_data["category"],
@@ -62,7 +62,7 @@ class Test():
         assert response.status_code==204
 
     # deleting already deleted subcategory for its else part
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_12_1_delete_subcategory(self):
         del_sub_data = {
             "category":constant.category_data["category"],
@@ -73,7 +73,7 @@ class Test():
         response_data = response.json
         assert response_data == "Not Found"
     
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_13_delete_category(self):
         del_cat_data = constant.category_data
         response = self.tester.delete("/categories/delete",json=del_cat_data)
@@ -81,7 +81,7 @@ class Test():
 
     # delete category with wrong details
         # wrong credentials
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_13_1_delete_category(self):
         del_cat_data = constant.wrong_category_data
         response = self.tester.delete("/categories/delete",json=del_cat_data)
@@ -89,14 +89,14 @@ class Test():
         response_data = response.json
         assert response_data=='404'        
 
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_13_2_delete_category(self):
         response = self.tester.delete("/categories/delete",json=constant.wrong_category_data_name)
         assert response.status_code==404
         response_data = response.json
         assert response_data=='404'
 
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_14_delete_customer_account(self):
         data = {
             "id":constant.data["id"],
@@ -107,7 +107,7 @@ class Test():
         assert response.status_code==204
         
     #  deleting customer deletion else check
-    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
+  #  @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_14_1_delete_customer_account(self):
         data = {
             "id":constant.data["id"],
