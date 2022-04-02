@@ -1,5 +1,5 @@
 #database data 
-host="my-rds.cdhjtz43hadn.us-east-1.rds.amazonaws.com"
+host="vishwa-rds.cpgtqvgczfeo.us-east-1.rds.amazonaws.com"
 user='vishwa'
 password='Password.123'
 database='ecommerce'
