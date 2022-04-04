@@ -11,6 +11,7 @@ class Test():
 
 
     #------testing home page--------------
+    @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_1_home(self):
         response = self.tester.get("/")
         response_data = response.json
