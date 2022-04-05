@@ -27,6 +27,7 @@ class Test():
     @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_2_delete_cart_wrong_item(self):
         wrong_cart_item ={
+        "id":constant.data["id"],
         "name":constant.data["name"].capitalize(),
         "password":constant.data["password"],
         "item-type":constant.category_data["category"].capitalize(),
@@ -42,6 +43,7 @@ class Test():
     @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_11_3_delete_cart_wrong_password(self):
         wrong_cart_password ={
+        "id":constant.data["id"],
         "name":constant.data["name"].capitalize(),
         "password":"xxx",
         "item-type":constant.category_data["category"].capitalize(),

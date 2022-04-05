@@ -8,9 +8,9 @@ mycustomer = Blueprint("mycustomer",__name__)
 def add_customer_cart():
     return Customer.add_customer_cart()
 
-@mycustomer.route("/records/<name>")
-def show_customer_cart(name):
-    return Customer.customer_cart(name)
+@mycustomer.route("/records/<id>")
+def show_customer_cart(id):
+    return Customer.customer_cart(id)
 
 
 @mycustomer.route("/records",methods=["DELETE"])

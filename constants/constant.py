@@ -1,5 +1,7 @@
 #database data 
-host="my-rds.cdhjtz43hadn.us-east-1.rds.amazonaws.com"
+
+
+host="localhost"
 user='vishwa'
 password='Password.123'
 database='ecommerce'
@@ -55,6 +57,7 @@ wrong_sub_data = {
     }
 
 add_cart_data = {
+    "id":data["id"],
     "name":data["name"].capitalize(),
     "password":data["password"],
     "item-type":category_data["category"].capitalize(),
@@ -62,6 +65,7 @@ add_cart_data = {
     }
 
 wrong_add_cart_data = {
+"id":data["id"],
 "name":"xxxxx",
 "password":data["password"],
 "item-type":category_data["category"].capitalize(),

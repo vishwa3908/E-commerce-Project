@@ -12,7 +12,7 @@ class Test():
         # first check cart is empty
     @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_9_show_customer_cart(self):
-        response = self.tester.get("/records/{}".format(constant.data["name"]))
+        response = self.tester.get("/records/{}".format(constant.data["id"]))
         assert response.status_code==200
         assert response.headers["Content-Type"]=="application/json"
         response_data = response.json
@@ -40,7 +40,7 @@ class Test():
 # --------------showing customer cart----------------
     @pytest.mark.skipif(connect_mysql()==0,reason="cannot connect to database")
     def test_10_show_customer_cart(self):
-        response = self.tester.get("/records/{}".format(constant.data["name"]))
+        response = self.tester.get("/records/{}".format(constant.data["id"]))
         assert response.status_code==200
         assert response.headers["Content-Type"]=="application/json"
         response_data = response.json

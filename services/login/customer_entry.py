@@ -41,7 +41,7 @@ class Login:
             return jsonify("enter id between 1 and 99999")
         else:
             name = request.json["name"].capitalize()
-            CustomerCart.create_cart(name)
+            CustomerCart.create_cart(name,id)
             age = request.json["age"]
             gender = request.json["gender"].capitalize()
             password = request.json["password"]

@@ -6,24 +6,33 @@ from  Config.connection import connect_mysql
 
 class Customer:
 
-    def customer_cart(name):
+    def customer_cart(id):
     
         conn = connect_mysql()
         mycursor = conn.cursor()
-        mycursor.execute("SELECT * FROM {}".format(name.capitalize()))
-        result = mycursor.fetchall()
-        if result:
-            sub_category = []
-            for i in range(len(result)):
-                data = {"Item-Type":result[i][0],
-                'Item':result[i][1],
-                "Quantity":result[i][2],
-                'Price':result[i][3],
-                "Total Price":result[i][4]}
-                sub_category.append(data)
-            return jsonify(sub_category),200
+        extracting_name_value = (id,)
+        extracting_name_query = ("SELECT NAME FROM customers where ID = %s")
+        mycursor.execute(extracting_name_query,extracting_name_value)
+        extracting_name_result = mycursor.fetchone()
+        if extracting_name_result:
+            print(extracting_name_result[0])
+            name = extracting_name_result[0]
+            mycursor.execute("SELECT * FROM {}".format(name.capitalize()+str(id)))
+            result = mycursor.fetchall()
+            if result:
+                sub_category = []
+                for i in range(len(result)):
+                    data = {"Item-Type":result[i][0],
+                    'Item':result[i][1],
+                    "Quantity":result[i][2],
+                    'Price':result[i][3],
+                    "Total Price":result[i][4]}
+                    sub_category.append(data)
+                return jsonify(sub_category),200
+            else:
+                return jsonify("Nothing on Cart"),200
         else:
-            return jsonify("Nothing on Cart"),200
+            return jsonify("wrong id")
 
     
     def customer_details():
@@ -49,22 +58,23 @@ class Customer:
         
         conn = connect_mysql()
         mycursor = conn.cursor()
+        id = request.json["id"]
         name = request.json["name"].capitalize()
         password = request.json["password"]
         item = request.json["item"].capitalize()
         item_type = request.json["item-type"].capitalize()
 
-        customer_record_value = (name,password,)
+        customer_record_value = (id,name,password,)
         # CHECKING IF CUSTOMER EXISTS
 
-        customer_record_query = '''SELECT * FROM customers WHERE NAME = %s AND PASSWORD = %s'''
+        customer_record_query = '''SELECT * FROM customers WHERE ID = %s AND NAME = %s AND PASSWORD = %s'''
 
         mycursor.execute(customer_record_query,customer_record_value)
         customer_record_result = mycursor.fetchall()
         if customer_record_result:
             # CHECKING IF ITEM EXISTS IN CART 
             item_present_in_cart_value = (item,)
-            item_present_in_cart_query = '''SELECT * FROM {} WHERE ITEM = %s'''.format(name)
+            item_present_in_cart_query = '''SELECT * FROM {} WHERE ITEM = %s'''.format(name+str(id))
             mycursor.execute(item_present_in_cart_query,item_present_in_cart_value)
             item_already_in_cart_result = mycursor.fetchall()
             
@@ -74,14 +84,14 @@ class Customer:
                 # UPDATING QUANTITY COLUMN 
                 
                 updating_column_value = (item,)
-                updating_column_query = '''UPDATE {} SET QUANTITY = QUANTITY+1  WHERE ITEM = %s'''.format(name)
+                updating_column_query = '''UPDATE {} SET QUANTITY = QUANTITY+1  WHERE ITEM = %s'''.format(name+str(id))
                 
                 mycursor.execute(updating_column_query,updating_column_value)
                 conn.commit()
                 
                 
                 #UPDATING TOTAL COLUMN   
-                updating_total_column_query = '''UPDATE {} SET TOTAL = PRICE*QUANTITY  WHERE ITEM = %s'''.format(name)
+                updating_total_column_query = '''UPDATE {} SET TOTAL = PRICE*QUANTITY  WHERE ITEM = %s'''.format(name+str(id))
                 
                 mycursor.execute(updating_total_column_query,updating_column_value)
                 
@@ -93,7 +103,7 @@ class Customer:
                 item_check_query = '''SELECT PRICE FROM {} WHERE ITEMS = %s'''.format(item_type)
                 mycursor.execute(item_check_query,item_check_value)
                 item_check_result = mycursor.fetchall()
-                mycursor.execute("INSERT INTO {}(ITEM_TYPE,ITEM,PRICE,TOTAL)VALUES(%s,%s,%s,%s)".format(name),(item_type,item,item_check_result[0][0],item_check_result[0][0]))
+                mycursor.execute("INSERT INTO {}(ITEM_TYPE,ITEM,PRICE,TOTAL)VALUES(%s,%s,%s,%s)".format(name+str(id)),(item_type,item,item_check_result[0][0],item_check_result[0][0]))
                 conn.commit()
                 return jsonify("Item added in cart"),201
             
@@ -104,6 +114,7 @@ class Customer:
         
         conn = connect_mysql()
         mycursor = conn.cursor()
+        id = request.json["id"]
         name = request.json["name"].capitalize()
         password= request.json["password"]
         item_type = request.json["item-type"].capitalize()
@@ -123,14 +134,14 @@ class Customer:
             if item_check_result:
                 # CHECK IF ITS QUANTITY IS  1
                 quantity_check_value = (item,)
-                quantity_check_query = '''SELECT QUANTITY FROM {} WHERE ITEM = %s'''.format(name)
+                quantity_check_query = '''SELECT QUANTITY FROM {} WHERE ITEM = %s'''.format(name+str(id))
                 mycursor.execute(quantity_check_query,quantity_check_value)
                 quantity_check_result = mycursor.fetchall()
                 # if 1
                 if quantity_check_result[0][0]==1:
                     
                     delete_cart_value = (item,)
-                    delete_cart_query = '''DELETE FROM {} WHERE ITEM = %s'''.format(name)
+                    delete_cart_query = '''DELETE FROM {} WHERE ITEM = %s'''.format(name+str(id))
                     mycursor.execute(delete_cart_query,delete_cart_value)
                     conn.commit()
                     return jsonify("{} Deleted".format(item)),204
@@ -138,11 +149,11 @@ class Customer:
                 else:
                     # subtracting 1 from quantity
                     update_quantity_value = (item,)
-                    update_quantity_query = '''UPDATE {} SET QUANTITY = QUANTITY-1 WHERE ITEM = %s'''.format(name)
+                    update_quantity_query = '''UPDATE {} SET QUANTITY = QUANTITY-1 WHERE ITEM = %s'''.format(name+str(id))
                     mycursor.execute(update_quantity_query,update_quantity_value)
                     conn.commit()
                     # updating total value
-                    updating_total_query = '''UPDATE {} SET TOTAL = PRICE*QUANTITY WHERE ITEM = %s'''.format(name)
+                    updating_total_query = '''UPDATE {} SET TOTAL = PRICE*QUANTITY WHERE ITEM = %s'''.format(name+str(id))
                     mycursor.execute(updating_total_query,update_quantity_value)
                     conn.commit()
                     return jsonify("item removed"),204
